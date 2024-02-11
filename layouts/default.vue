@@ -61,14 +61,29 @@ export default {
       fixed: false,
       items: [
         {
-          icon: "mdi-apps",
+          icon: "mdi-home",
           title: "Welcome",
           to: "/",
+        },
+        {
+          icon: "mdi-apps",
+          title: "Temp",
+          to: "/index1",
         },
         {
           icon: "mdi-currency-usd",
           title: "Expense",
           to: "/expense",
+        },
+        {
+          icon: "mdi-currency-usd",
+          title: "Income",
+          to: "/income",
+        },
+        {
+          icon: "mdi-video-outline",
+          title: "Videos",
+          to: "/video",
         },
       ],
       miniVariant: false,

@@ -53,7 +53,6 @@
             required
             hide-details
           ></v-text-field>
-
         </v-col>
         <v-col v-if="error" cols="12" class="px-5 red--text">
           <small>{{ error }}</small>
@@ -74,7 +73,7 @@
 <script>
 export default {
   layout: "guest",
-  auth:false,
+  auth: false,
   data() {
     return {
       form: {
@@ -92,10 +91,7 @@ export default {
       // You can use axios or another method to send the data to your API
       console.log("Form submitted:", this.form);
       try {
-        let { res } = await this.$axios.post(
-          `http://localhost:8000/api/user`,
-          this.form
-        );
+        let { res } = await this.$axios.post(`user`, this.form);
         // this.response = {
         //   success: true,
         //   message: ,

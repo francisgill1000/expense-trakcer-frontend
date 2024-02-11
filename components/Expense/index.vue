@@ -107,10 +107,9 @@
                   Edit
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item @click="deleteItem(item)">
+              <v-list-item>
                 <v-list-item-title style="cursor: pointer">
-                  <v-icon color="error" small> mdi-delete </v-icon>
-                  Delete
+                  <Delete @success="handleSuccess" :id="item.id" :endpoint="endpoint" />
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -126,7 +125,7 @@ export default {
   data: () => ({
     filterDialog: false,
     Model: "Expenses",
-    endpoint: "amc_type",
+    endpoint: "expense",
     headers: [
       {
         text: "#",
@@ -235,8 +234,8 @@ export default {
       };
       this.getDataFromApi();
     },
-    handleSuccess() {
-      alert(`done`);
+    handleSuccess(value) {
+      alert(value || `done`);
       this.getDataFromApi();
     },
     applyFilters() {
