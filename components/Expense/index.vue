@@ -1,34 +1,34 @@
 <template>
   <v-row no-gutters>
-    <v-dialog v-model="filterDialog">
-      <v-card>
-        <v-card-title>
-          Filters <v-spacer></v-spacer
-          ><v-icon @click="filterDialog = false"
-            >mdi-close-circle-outline</v-icon
-          ></v-card-title
-        >
-        <v-card-text>
-          <v-row no-gutters>
-            <v-col cols="12">
-              <DatePicker
-                label="Start Date"
-                paramKey="start_date"
-                @date="getDateEvent"
-              />
-            </v-col>
-            <v-col cols="12">
-              <DatePicker
-                label="End Date"
-                paramKey="end_date"
-                @date="getDateEvent"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-col md="12" sm="12">
+    <v-navigation-drawer absolute top v-model="filterForm">
+      <v-toolbar dense flat
+        >Filters <v-spacer />
+        <v-icon @click="filterForm = false" color="primary"
+          >mdi-close-circle-outline</v-icon
+        ></v-toolbar
+      >
+      <v-row no-gutters class="pa-2">
+        <v-col cols="12" class="mb-3">
+          <DatePicker
+            label="Start Date"
+            paramKey="start_date"
+            @date="getDateEvent"
+          />
+        </v-col>
+        <v-col cols="12">
+          <DatePicker
+            label="End Date"
+            paramKey="end_date"
+            @date="getDateEvent"
+          />
+        </v-col>
+        <v-col cols="12" class="mt-3">
+          <v-btn block outlined color="primary" small  @click="getDataFromApi">Submit</v-btn>
+        </v-col>
+      </v-row>
+    </v-navigation-drawer>
+
+    <v-col cols="12">
       <v-data-table
         dense
         :headers="headers"
@@ -47,14 +47,13 @@
               ><span>{{ Model }} </span></v-toolbar-title
             > -->
             <span>
-              <v-icon class="ml-2" @click="reload" dark>mdi-reload</v-icon>
+              <v-icon class="ml-2" color="primary" @click="reload">mdi-reload</v-icon>
             </span>
             <span>
-              <v-icon class="ml-2" @click="filterDialog = true" dark
+              <v-icon class="ml-2" @click="filterForm = true" color="primary"
                 >mdi-filter-outline</v-icon
               >
             </span>
-
             <v-spacer></v-spacer>
             <ExpenseCreate @success="handleSuccess" />
           </v-toolbar>
@@ -109,7 +108,11 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-title style="cursor: pointer">
-                  <Delete @success="handleSuccess" :id="item.id" :endpoint="endpoint" />
+                  <Delete
+                    @success="handleSuccess"
+                    :id="item.id"
+                    :endpoint="endpoint"
+                  />
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -123,7 +126,7 @@
 <script>
 export default {
   data: () => ({
-    filterDialog: false,
+    filterForm: false,
     Model: "Expenses",
     endpoint: "expense",
     headers: [
@@ -227,12 +230,22 @@ export default {
     },
   },
   methods: {
+    async getTotalExpense() {
+      this.filterForm = false;
+      let { data } = await this.$axios.get("customExpense", {
+        params: {
+          ...this.filters,
+        },
+      });
+      this.totalExpense = data;
+      this.$emit("some_value", data);
+    },
+
     getDateEvent(e) {
       this.filters = {
         ...this.filters,
         ...e,
       };
-      this.getDataFromApi();
     },
     handleSuccess(value) {
       alert(value || `done`);
@@ -265,10 +278,9 @@ export default {
       this.$axios.get(`expense`, options).then(({ data }) => {
         this.data = data.data;
         //this.server_datatable_totalItems = data.total;
-
         this.totalRowsCount = data.total;
-
         this.loading = false;
+        this.getTotalExpense();
       });
     },
   },

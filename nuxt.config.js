@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - frontend',
+    titleTemplate: 'App Name',
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },
@@ -49,8 +49,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // baseURL: '/',
-    baseURL: 'http://127.0.0.1:8000/api/',
+    baseURL: 'https://backend.florencetech.online/api/',
+    // baseURL: 'http://localhost:8000/api/',
   },
 
   auth: {
@@ -91,10 +91,10 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
+        light: {
+          primary: colors.purple,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

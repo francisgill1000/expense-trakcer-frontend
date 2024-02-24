@@ -86,8 +86,7 @@ export default {
           user_id: this.$auth.user.id,
         };
         // Sending the income data to the backend
-        await this.$axios.put(
-          "http://localhost:8000/api/income/" + this.payload.id,
+        await this.$axios.put("income/" + this.payload.id,
           incomeData
         );
 

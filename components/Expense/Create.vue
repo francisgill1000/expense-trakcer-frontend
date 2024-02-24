@@ -42,23 +42,25 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" outlined dense color="">
-          Expense
-          <v-icon right dense dark>mdi-plus-circle-outline</v-icon>
-        </v-btn>
+        <v-icon right color="primary" v-bind="attrs" v-on="on">mdi-plus-circle-outline</v-icon>
       </template>
 
       <v-card>
+        <v-toolbar flat dense>
+          Record Your Income
+          <v-spacer></v-spacer>
+          <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
+        </v-toolbar>
+
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col>
-                <div class="headline text-centers">Record Your Expense</div>
-              </v-col>
+          <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model="shop_name"
                   label="Shop Name"
+                  outlined
+                  dense
+                  hide-details
                   required
                 ></v-text-field>
               </v-col>
@@ -66,6 +68,9 @@
                 <v-text-field
                   v-model="label"
                   label="Label"
+                  outlined
+                  dense
+                  hide-details
                   required
                 ></v-text-field>
               </v-col>
@@ -74,29 +79,29 @@
                   v-model="amount"
                   label="Amount"
                   type="number"
+                  outlined
+                  dense
+                  hide-details
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-date-picker
-                  color="blue"
-                  no-title
-                  v-model="date"
-                  label="Date"
-                  required
-                ></v-date-picker>
+                <DatePicker
+                  @date="
+                    (e) => {
+                      date = e.date;
+                    }
+                  "
+                />
               </v-col>
               <v-col cols="12" class="error--text" v-if="errorResponse">
                 {{ errorResponse }}
               </v-col>
-              <v-col>
-                <v-btn type="submit" color="primary" @click="submit"
-                  >Submit</v-btn
-                >
+              <v-col cols="12">
+                <v-btn class="primary" block @click="submit">Submit</v-btn>
               </v-col>
               <v-col> </v-col>
             </v-row>
-          </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>

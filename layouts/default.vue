@@ -24,14 +24,14 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar :clipped-left="clipped" fixed app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
       <v-icon @click="logout">mdi-logout</v-icon>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fluid>
         <Nuxt />
       </v-container>
     </v-main>
@@ -66,9 +66,19 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-apps",
-          title: "Temp",
-          to: "/index1",
+          icon: "mdi-calendar-today",
+          title: "Today Stats",
+          to: "/today-stats",
+        },
+        {
+          icon: "mdi-calendar-week",
+          title: "Weekly Stats",
+          to: "/weekly-stats",
+        },
+        {
+          icon: "mdi-calendar-month",
+          title: "Monthly Stats",
+          to: "/monthly-stats",
         },
         {
           icon: "mdi-currency-usd",
@@ -80,11 +90,21 @@ export default {
           title: "Income",
           to: "/income",
         },
-        {
-          icon: "mdi-video-outline",
-          title: "Videos",
-          to: "/video",
-        },
+        // {
+        //   icon: "mdi-package",
+        //   title: "Item",
+        //   to: "/item",
+        // },
+        // {
+        //   icon: "mdi-video-outline",
+        //   title: "Videos",
+        //   to: "/video",
+        // },
+        // {
+        //   icon: "mdi-clipboard-outline",
+        //   title: "Form Builder",
+        //   to: "/form",
+        // },
       ],
       miniVariant: false,
       right: true,

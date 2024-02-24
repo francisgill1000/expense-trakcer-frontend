@@ -1,10 +1,37 @@
 <template>
   <v-row no-gutters>
-    <v-dialog v-model="filterDialog">
+    <v-navigation-drawer absolute top v-model="filterForm">
+      <v-toolbar dense flat
+        >Filters <v-spacer />
+        <v-icon color="primary" @click="filterForm = false"
+          >mdi-close-circle-outline</v-icon
+        ></v-toolbar
+      >
+      <v-row no-gutters class="pa-2">
+        <v-col cols="12" class="mb-3">
+          <DatePicker
+            label="Start Date"
+            paramKey="start_date"
+            @date="getDateEvent"
+          />
+        </v-col>
+        <v-col cols="12">
+          <DatePicker
+            label="End Date"
+            paramKey="end_date"
+            @date="getDateEvent"
+          />
+        </v-col>
+        <v-col cols="12" class="mt-3">
+          <v-btn block outlined color="primary" small @click="getDataFromApi">Submit</v-btn>
+        </v-col>
+      </v-row>
+    </v-navigation-drawer>
+    <!-- <v-dialog v-model="filterForm">
       <v-card>
         <v-card-title>
           Filters <v-spacer></v-spacer
-          ><v-icon @click="filterDialog = false"
+          ><v-icon @click="filterForm = false"
             >mdi-close-circle-outline</v-icon
           ></v-card-title
         >
@@ -27,7 +54,7 @@
           </v-row>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
     <v-col md="12" sm="12">
       <v-data-table
         dense
@@ -47,10 +74,10 @@
               ><span>{{ Model }} </span></v-toolbar-title
             > -->
             <span>
-              <v-icon class="ml-2" @click="reload" dark>mdi-reload</v-icon>
+              <v-icon class="ml-2" @click="reload" >mdi-reload</v-icon>
             </span>
             <span>
-              <v-icon class="ml-2" @click="filterDialog = true" dark
+              <v-icon class="ml-2" @click="filterForm = true" 
                 >mdi-filter-outline</v-icon
               >
             </span>
@@ -122,7 +149,7 @@
 <script>
 export default {
   data: () => ({
-    filterDialog: false,
+    filterForm: false,
     Model: "Incomes",
     endpoint: "income",
     headers: [
@@ -252,7 +279,7 @@ export default {
         },
       };
 
-      this.$axios.get("http://localhost:8000/api/income", options).then(({ data }) => {
+      this.$axios.get("income", options).then(({ data }) => {
         this.data = data.data;
         //this.server_datatable_totalItems = data.total;
 

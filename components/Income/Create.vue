@@ -1,24 +1,27 @@
 <template>
-  <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+   <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" outlined dense color="">
-          Income
-          <v-icon right dense dark>mdi-plus-circle-outline</v-icon>
+        <v-btn color="primary" v-bind="attrs" v-on="on" outlined dense x-small>
+          Custom Order
+          <v-icon right dense dark small>mdi-plus-circle-outline</v-icon>
         </v-btn>
       </template>
 
       <v-card>
+        <v-toolbar flat dense>
+          Record Your Income
+          <v-spacer></v-spacer>
+          <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
+        </v-toolbar>
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col>
-                <div class="headline text-centers">Record Your Income</div>
-              </v-col>
+          <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model="label"
                   label="Label"
+                  outlined
+                  dense
+                  hide-details
                   required
                 ></v-text-field>
               </v-col>
@@ -28,32 +31,32 @@
                   label="Amount"
                   type="number"
                   required
+                  outlined
+                  dense
+                  hide-details
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-date-picker
-                  color="blue"
-                  no-title
-                  v-model="date"
-                  label="Date"
-                  required
-                ></v-date-picker>
+                <DatePicker
+                  @date="
+                    (e) => {
+                      date = e.date;
+                    }
+                  "
+                />
               </v-col>
               <v-col cols="12" class="error--text" v-if="errorResponse">
                 {{ errorResponse }}
               </v-col>
-              <v-col>
-                <v-btn type="submit" color="primary" @click="submit"
+              <v-col cols="12">
+                <v-btn type="submit" color="primary" @click="submit" block
                   >Submit</v-btn
                 >
               </v-col>
-              <v-col> </v-col>
             </v-row>
-          </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
-  </div>
 </template>
 <script>
 export default {
@@ -83,14 +86,14 @@ export default {
           user_id: this.$auth.user.id,
         };
         // Sending the income data to the backend
-        await this.$axios.post("http://localhost:8000/api/income", incomeData);
+        await this.$axios.post("income", incomeData);
 
         // Reset form fields after submitting
         this.label = "";
         this.amount = "";
         this.date = null;
 
-        this.$emit("success","Income has been created");
+        this.$emit("success", "Income has been created");
         this.dialog = false;
         // Optionally, you can fetch updated data from the server or perform other actions
       } catch ({ response }) {

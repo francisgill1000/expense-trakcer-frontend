@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-icon color="red" small @click="submit"> mdi-delete </v-icon>
-    Delete {{ id }}
+    Delete
   </div>
 </template>
 <script>
