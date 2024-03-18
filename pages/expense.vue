@@ -1,15 +1,9 @@
 <template>
   <div>
-    
+
     <SingleCard label="Total Expense" :value="totalExpense" />
 
-    <Expense
-      @some_value="
-        (e) => {
-          totalExpense = e;
-        }
-      "
-    />
+    <Expense @some_value="(e) => totalExpense = e" />
   </div>
 </template>
 

@@ -1,33 +1,14 @@
 <!-- DatePicker.vue -->
 
 <template>
-  <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
-    :nudge-right="40"
-    transition="scale-transition"
-    offset-y
-    min-width="auto"
-  >
+  <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y
+    min-width="auto">
     <template v-slot:activator="{ on, attrs }">
-      <v-text-field
-        dense
-        outlined
-        v-model="date"
-        :label="label"
-        readonly
-        v-bind="attrs"
-        v-on="on"
-        hide-details
-      ></v-text-field>
+      <v-text-field dense outlined v-model="date" :label="label" readonly v-bind="attrs" v-on="on"
+        hide-details></v-text-field>
     </template>
 
-    <v-date-picker
-      color="primary"
-      no-title
-      v-model="date"
-      @input="handleEvent"
-    ></v-date-picker>
+    <v-date-picker color="primary" no-title v-model="date" @input="handleEvent"></v-date-picker>
   </v-menu>
 </template>
 
@@ -51,7 +32,8 @@ export default {
     };
   },
   created() {
-    this.handleEvent();
+    this.$emit("date", { [this.paramKey]: null });
+
   },
   methods: {
     handleEvent() {

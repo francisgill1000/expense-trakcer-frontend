@@ -86,12 +86,6 @@ export default {
         // Sending the expense data to the backend
         await this.$axios.post("expense", expenseData);
 
-        // Reset form fields after submitting
-        this.shop_name = "";
-        this.label = "";
-        this.amount = "";
-        this.date = null;
-
         alert("Expense has been recorded");
 
         this.dialog = false;

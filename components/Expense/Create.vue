@@ -47,7 +47,7 @@
 
       <v-card>
         <v-toolbar flat dense>
-          Record Your Income
+          Record Your Expense
           <v-spacer></v-spacer>
           <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
         </v-toolbar>
@@ -138,13 +138,6 @@ export default {
         };
         // Sending the expense data to the backend
         await this.$axios.post("expense", expenseData);
-
-        // Reset form fields after submitting
-        this.shop_name = "";
-        this.label = "";
-        this.amount = "";
-        this.date = null;
-
         this.$emit("success");
         this.dialog = false;
         // Optionally, you can fetch updated data from the server or perform other actions

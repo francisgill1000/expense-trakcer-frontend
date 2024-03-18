@@ -91,9 +91,9 @@ export default {
         );
 
         // Reset form fields after submitting
-        this.payload.label = "";
-        this.payload.amount = "";
-        this.payload.date = null;
+        // this.payload.label = "";
+        // this.payload.amount = "";
+        // this.payload.date = null;
 
         this.$emit("success","Income has been updated");
         this.dialog = false;

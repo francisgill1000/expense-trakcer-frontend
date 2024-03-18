@@ -19,9 +19,9 @@ export default {
       cards: [],
     };
   },
-  created() {
+  async created() {
     // Assuming you fetch JSON data from an API or a local file
-    this.fetchCardData();
+    await this.fetchCardData();
   },
   methods: {
     getCurrencyType(data) {
@@ -30,8 +30,8 @@ export default {
         currency: "AED",
       });
     },
-    fetchCardData() {
-      this.$axios.get(this.endpoint, {
+    async fetchCardData() {
+      await this.$axios.get(this.endpoint, {
         params: {
           user_id: this.$auth.user.id,
         }

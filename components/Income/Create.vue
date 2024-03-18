@@ -1,63 +1,42 @@
 <template>
-   <v-dialog v-model="dialog" width="500">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" v-bind="attrs" v-on="on" outlined dense x-small>
-          Custom Order
-          <v-icon right dense dark small>mdi-plus-circle-outline</v-icon>
-        </v-btn>
-      </template>
+  <v-dialog v-model="dialog" width="500">
+    <template v-slot:activator="{ on, attrs }">
+      <v-icon color="primary" v-bind="attrs" v-on="on">mdi-plus-circle-outline</v-icon>
+    </template>
 
-      <v-card>
-        <v-toolbar flat dense>
-          Record Your Income
-          <v-spacer></v-spacer>
-          <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
-        </v-toolbar>
-        <v-card-text>
-          <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="label"
-                  label="Label"
-                  outlined
-                  dense
-                  hide-details
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="amount"
-                  label="Amount"
-                  type="number"
-                  required
-                  outlined
-                  dense
-                  hide-details
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <DatePicker
-                  @date="
-                    (e) => {
-                      date = e.date;
-                    }
-                  "
-                />
-              </v-col>
-              <v-col cols="12" class="error--text" v-if="errorResponse">
-                {{ errorResponse }}
-              </v-col>
-              <v-col cols="12">
-                <v-btn type="submit" color="primary" @click="submit" block
-                  >Submit</v-btn
-                >
-              </v-col>
-            </v-row>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <v-card>
+      <v-toolbar flat dense>
+        Record Your Income
+        <v-spacer></v-spacer>
+        <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
+      </v-toolbar>
+      <v-card-text>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="label" label="Label" outlined dense hide-details required></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="amount" label="Amount" type="number" required outlined dense
+              hide-details></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <DatePicker @date="(e) => {
+      date = e.date;
+    }
+    " />
+          </v-col>
+          <v-col cols="12" class="error--text" v-if="errorResponse">
+            {{ errorResponse }}
+          </v-col>
+          <v-col cols="12">
+            <v-btn type="submit" color="primary" @click="submit" block>Submit</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
+
 <script>
 export default {
   data() {

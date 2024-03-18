@@ -1,29 +1,17 @@
 <template>
   <v-row no-gutters>
     <v-navigation-drawer absolute top v-model="filterForm">
-      <v-toolbar dense flat
-        >Filters <v-spacer />
-        <v-icon color="primary" @click="filterForm = false"
-          >mdi-close-circle-outline</v-icon
-        ></v-toolbar
-      >
+      <v-toolbar dense flat>Filters <v-spacer />
+        <v-icon color="primary" @click="filterForm = false">mdi-close-circle-outline</v-icon></v-toolbar>
       <v-row no-gutters class="pa-2">
         <v-col cols="12" class="mb-3">
-          <DatePicker
-            label="Start Date"
-            paramKey="start_date"
-            @date="getDateEvent"
-          />
+          <DatePicker label="Start Date" paramKey="start_date" @date="getDateEvent" />
         </v-col>
         <v-col cols="12">
-          <DatePicker
-            label="End Date"
-            paramKey="end_date"
-            @date="getDateEvent"
-          />
+          <DatePicker label="End Date" paramKey="end_date" @date="getDateEvent" />
         </v-col>
         <v-col cols="12" class="mt-3">
-          <v-btn block outlined color="primary" small @click="getDataFromApi">Submit</v-btn>
+          <v-btn block outlined color="primary" small @click="refresh">Submit</v-btn>
         </v-col>
       </v-row>
     </v-navigation-drawer>
@@ -56,92 +44,13 @@
       </v-card>
     </v-dialog> -->
     <v-col md="12" sm="12">
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="data"
-        :loading="loading"
-        :options.sync="options"
-        :footer-props="{
-          itemsPerPageOptions: [15, 30, 50],
-        }"
-        class="elevation-1"
-        :server-items-length="totalRowsCount"
-      >
-        <template v-slot:top>
-          <v-toolbar class="mb-2" dense flat>
-            <!-- <v-toolbar-title
-              ><span>{{ Model }} </span></v-toolbar-title
-            > -->
-            <span>
-              <v-icon class="ml-2" @click="reload" >mdi-reload</v-icon>
-            </span>
-            <span>
-              <v-icon class="ml-2" @click="filterForm = true" 
-                >mdi-filter-outline</v-icon
-              >
-            </span>
-
-            <v-spacer></v-spacer>
-            <IncomeCreate @success="handleSuccess" />
-          </v-toolbar>
-        </template>
-        <template v-slot:header="{ props: { headers } }">
-          <tr v-if="isFilter">
-            <td v-for="header in headers" :key="header.text">
-              <v-container>
-                <v-text-field
-                  clearable
-                  @click:clear="
-                    filters[header.value] = '';
-                    applyFilters();
-                  "
-                  :hide-details="true"
-                  v-if="header.filterable && !header.filterSpecial"
-                  v-model="filters[header.value]"
-                  :id="header.value"
-                  @input="applyFilters(header.key, $event)"
-                  outlined
-                  dense
-                  autocomplete="off"
-                ></v-text-field>
-              </v-container>
-            </td>
-          </tr>
-        </template>
-
-        <!-- <template v-slot:item.email="{ item }">
-                      {{ item?.employee?.user?.email }}
-                    </template> -->
-
-        <template v-slot:item.options="{ item }">
-          <v-menu bottom left>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn dark-2 icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list width="120" dense>
-              <v-list-item @click="viewItem(item)">
-                <v-list-item-title style="cursor: pointer">
-                  <v-icon color="secondary" small> mdi-eye </v-icon>
-                  View
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title style="cursor: pointer">
-                  <IncomeEdit @success="handleSuccess" :item="item" />
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title style="cursor: pointer">
-                  <Delete @success="handleSuccess" :id="item.id" :endpoint="endpoint" />
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </template>
-      </v-data-table>
+      <v-toolbar class="mb-2" dense flat>
+        <v-icon class="ml-2" color="primary" @click="reload">mdi-reload</v-icon>
+        <v-icon class="ml-2" color="primary" @click="filterForm = true">mdi-filter-outline</v-icon>
+        <v-spacer></v-spacer>
+        <IncomeCreate @success="handleSuccess" />
+      </v-toolbar>
+      <DataTable :key="dataRefreshKey" :headers="headers" :endpoint="endpoint" :filters="filters" />
     </v-col>
   </v-row>
 </template>
@@ -152,6 +61,7 @@ export default {
     filterForm: false,
     Model: "Incomes",
     endpoint: "income",
+    dataRefreshKey: 0,
     headers: [
       {
         text: "#",
@@ -232,13 +142,12 @@ export default {
 
   async created() {
     this.loading = false;
-    this.getDataFromApi();
   },
 
   watch: {
     options: {
       handler() {
-        this.getDataFromApi();
+        this.refresh();
       },
       deep: true,
     },
@@ -249,44 +158,22 @@ export default {
         ...this.filters,
         ...e,
       };
-      this.getDataFromApi();
+      this.refresh();
     },
     handleSuccess(value) {
       alert(value || `done`);
-      this.getDataFromApi();
+      this.refresh();
     },
     applyFilters() {
-      this.getDataFromApi();
+      this.refresh();
     },
     reload() {
       this.filters = {};
       this.isFilter = false;
-      this.getDataFromApi();
+      this.refresh();
     },
-    getDataFromApi() {
-      //this.loading = true;
-      this.loading = true;
-
-      let { sortBy, sortDesc, page, itemsPerPage } = this.options;
-      this.filters.user_id = this.$auth.user.id;
-      let options = {
-        params: {
-          page: page,
-          sortBy: sortBy ? sortBy[0] : "",
-          sortDesc: sortDesc ? sortDesc[0] : "",
-          itemsPerPage: itemsPerPage, //this.pagination.per_page,
-          ...this.filters,
-        },
-      };
-
-      this.$axios.get("income", options).then(({ data }) => {
-        this.data = data.data;
-        //this.server_datatable_totalItems = data.total;
-
-        this.totalRowsCount = data.total;
-
-        this.loading = false;
-      });
+    refresh() {
+      this.dataRefreshKey += 1;
     },
   },
 };

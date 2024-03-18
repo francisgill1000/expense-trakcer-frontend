@@ -4,66 +4,36 @@
   <div>
     <v-container fluid>
       <v-row no-gutter>
+        <v-col cols="12" class="text-center">
+          <Logo class="mt-10" />
+          <!-- <div>Your personal Expense Manager</div> -->
+        </v-col>
         <v-col col="12" class="text-center white black--text">
           <b> Your Personal Expense Manager </b>
         </v-col>
 
-        <v-col cols="12" class="text-center">
-          <Logo class="my-5" />
-          <!-- <div>Your personal Expense Manager</div> -->
+        <v-col cols="12">
+          <v-text-field outlined dense v-model="form.name" label="Name" required hide-details></v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field
-            outlined
-            dense
-            v-model="form.name"
-            label="Name"
-            required
-            hide-details
-          ></v-text-field>
+          <v-text-field outlined dense v-model="form.number" label="Number" required hide-details></v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field
-            outlined
-            dense
-            v-model="form.number"
-            label="Number"
-            required
-            hide-details
-          ></v-text-field>
+          <v-text-field outlined dense v-model="form.password" label="Password" type="password" required
+            hide-details></v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field
-            outlined
-            dense
-            v-model="form.password"
-            label="Password"
-            type="password"
-            required
-            hide-details
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12">
-          <v-text-field
-            outlined
-            dense
-            v-model="form.password_confirmation"
-            label="Confirm Password"
-            type="password"
-            required
-            hide-details
-          ></v-text-field>
+          <v-text-field outlined dense v-model="form.password_confirmation" label="Confirm Password" type="password"
+            required hide-details></v-text-field>
         </v-col>
         <v-col v-if="error" cols="12" class="px-5 red--text">
           <small>{{ error }}</small>
         </v-col>
         <v-col cols="12">
-          <v-btn @click="submitForm" outlined block>Register</v-btn>
+          <v-btn @click="submitForm" block class="primary">Register</v-btn>
         </v-col>
         <v-col cols="12">
-          <v-btn @click="$router.push(`/login`)" outlined block
-            >Click here to Login</v-btn
-          >
+          <v-btn @click="$router.push(`/login`)" block class="primary">Click here to Login</v-btn>
         </v-col>
       </v-row>
     </v-container>
