@@ -21,8 +21,9 @@
             <v-text-field outlined dense v-model="form.number" label="Number" required hide-details></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-text-field outlined dense v-model="form.password" label="Password" type="password" required
-              hide-details></v-text-field>
+            <v-text-field outlined dense v-model="form.password" label="Password"
+              :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show_password = !show_password"
+              :type="show_password ? 'password' : ''" required hide-details></v-text-field>
           </v-col>
           <v-col v-if="error" cols="12" class="px-5 red--text">
             <small>{{ error }}</small>
@@ -48,6 +49,7 @@ export default {
   auth: false,
   data() {
     return {
+      show_password: false,
       form: {
         number: null,
         password: null,

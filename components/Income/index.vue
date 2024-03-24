@@ -50,7 +50,10 @@
         <v-spacer></v-spacer>
         <IncomeCreate @success="handleSuccess" />
       </v-toolbar>
-      <DataTable :key="dataRefreshKey" :headers="headers" :endpoint="endpoint" :filters="filters" />
+      <DataTable 
+      editComponent="IncomeEdit" 
+      :key="dataRefreshKey" :headers="headers" :endpoint="endpoint"
+        :filters="filters" />
     </v-col>
   </v-row>
 </template>

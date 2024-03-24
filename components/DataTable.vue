@@ -11,15 +11,9 @@
                     </v-btn>
                 </template>
                 <v-list width="120" dense>
-                    <!-- <v-list-item @click="viewItem(item)">
+                    <v-list-item v-if="editComponent">
                         <v-list-item-title style="cursor: pointer">
-                            <v-icon color="secondary" small> mdi-eye </v-icon>
-                            View
-                        </v-list-item-title>
-                    </v-list-item> -->
-                    <v-list-item>
-                        <v-list-item-title style="cursor: pointer">
-                            <ExpenseEdit @success="handleSuccess" :item="item" />
+                            <component :is="editComponent" @success="handleSuccess" :item="item"></component>
                         </v-list-item-title>
                     </v-list-item>
                     <v-list-item>
@@ -43,9 +37,14 @@ export default {
                 return {}
             }
         },
+
         endpoint: {
             type: String,
             default: ''
+        },
+        editComponent: {
+            type: String,
+            default: '',
         },
         headers: {
             type: Array,
@@ -60,9 +59,11 @@ export default {
         data: [],
         totalRowsCount: 0,
         options: {},
+        payload: {}
     }),
 
     async created() {
+        this.payload = this.filters;
         this.loading = false;
     },
 
@@ -76,12 +77,12 @@ export default {
     },
     methods: {
         reload() {
-            this.filters = {};
+            this.payload = {};
             this.getDataFromApi();
         },
         handleSuccess(value) {
             alert(value || `done`);
-            this.filters = {};
+            this.payload = {};
             this.getDataFromApi();
         },
         getDataFromApi() {
@@ -89,14 +90,14 @@ export default {
             this.loading = true;
 
             let { sortBy, sortDesc, page, itemsPerPage } = this.options;
-            this.filters.user_id = this.$auth.user.id;
+            this.payload.user_id = this.$auth.user.id;
             let options = {
                 params: {
                     page: page,
                     sortBy: sortBy ? sortBy[0] : "",
                     sortDesc: sortDesc ? sortDesc[0] : "",
                     itemsPerPage: itemsPerPage, //this.pagination.per_page,
-                    ...this.filters,
+                    ...this.payload,
                 },
             };
 
@@ -104,7 +105,8 @@ export default {
                 this.data = data.data;
                 this.totalRowsCount = data.total;
                 this.loading = false;
-            });
+            })
+                .catch(e => console.log(e));
         },
     },
 };

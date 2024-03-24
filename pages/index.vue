@@ -1,6 +1,15 @@
 <template>
   <div>
-    <v-tabs centered>
+    <v-card outlined>
+      <ApexChartsBar />
+    </v-card>
+
+    <v-card outlined class="my-1">
+      <v-toolbar flat dense dark color="primary">Expense List</v-toolbar>
+      <Expense />
+    </v-card>
+
+    <!-- <v-tabs centered>
       <v-tab>Expense</v-tab>
       <v-tab>Income</v-tab>
       <v-tab-item>
@@ -9,8 +18,8 @@
       <v-tab-item>
         <IncomeCreateForm />
       </v-tab-item>
-    </v-tabs>
-    <v-container>
+    </v-tabs> -->
+    <!-- <v-container>
       <v-tabs v-model="tab" background-color="primary" dark centered>
         <v-tab>
           List View
@@ -25,7 +34,7 @@
           <ApexChartsBar />
         </v-tab-item>
       </v-tabs>
-    </v-container>
+    </v-container> -->
   </div>
 </template>
 <script>

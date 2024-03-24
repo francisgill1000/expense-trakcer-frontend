@@ -22,7 +22,7 @@
         <v-spacer></v-spacer>
         <ExpenseCreate @success="handleSuccess" />
       </v-toolbar>
-      <DataTable :key="dataRefreshKey" :headers="headers" :endpoint="endpoint" :filters="filters" />
+      <DataTable editComponent="ExpenseEdit" :key="dataRefreshKey" :headers="headers" :endpoint="endpoint" :filters="filters" />
     </v-col>
   </v-row>
 </template>
