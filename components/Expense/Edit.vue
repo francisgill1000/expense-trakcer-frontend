@@ -42,8 +42,9 @@
   <div>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-
-        <v-icon small color="secondary" v-bind="attrs" v-on="on">mdi-pencil</v-icon>
+        <v-icon small color="secondary" v-bind="attrs" v-on="on"
+          >mdi-pencil</v-icon
+        >
         Edit
       </template>
 
@@ -51,23 +52,50 @@
         <v-toolbar flat dense>
           Record Your Expense
           <v-spacer></v-spacer>
-          <v-icon color="primary" @click="dialog = false">mdi-close-circle-outline</v-icon>
+          <v-icon color="primary" @click="dialog = false"
+            >mdi-close-circle-outline</v-icon
+          >
         </v-toolbar>
 
         <v-card-text>
           <v-row>
             <v-col cols="12">
-              <v-text-field v-model="shop_name" label="Shop Name" outlined dense hide-details required></v-text-field>
+              <v-text-field
+                v-model="shop_name"
+                label="Shop Name"
+                outlined
+                dense
+                hide-details
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="label" label="Label" outlined dense hide-details required></v-text-field>
+              <v-text-field
+                v-model="label"
+                label="Label"
+                outlined
+                dense
+                hide-details
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="amount" label="Amount" type="number" outlined dense hide-details
-                required></v-text-field>
+              <v-text-field
+                v-model="amount"
+                label="Amount"
+                type="number"
+                outlined
+                dense
+                hide-details
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <DatePicker paramKey="date" @date="getDateEvent" />
+              <DatePicker
+                paramKey="date"
+                :defaultDate="item.date"
+                @date="getDateEvent"
+              />
             </v-col>
             <v-col cols="12" class="error--text" v-if="errorResponse">
               {{ errorResponse }}
@@ -96,7 +124,7 @@ export default {
       data: [],
     };
   },
-  async created() {
+  async mounted() {
     // this.getData();
     this.amount = this.item.amount;
     this.label = this.item.label;

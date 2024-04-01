@@ -15,20 +15,40 @@
               <div class="headline text-centers">Record Your Income</div>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="payload.label" label="Label" outlined dense hide-details required></v-text-field>
+              <v-text-field
+                v-model="payload.label"
+                label="Label"
+                outlined
+                dense
+                hide-details
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="payload.amount" label="Amount" outlined dense hide-details required></v-text-field>
+              <v-text-field
+                v-model="payload.amount"
+                label="Amount"
+                outlined
+                dense
+                hide-details
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <DatePicker paramKey="date" @date="getDateEvent" />
+              <DatePicker
+                paramKey="date"
+                :defaultDate="item.date"
+                @date="getDateEvent"
+              />
               <!-- <v-date-picker color="blue" no-title v-model="payload.date" label="Date" required></v-date-picker> -->
             </v-col>
             <v-col cols="12" class="error--text" v-if="errorResponse">
               {{ errorResponse }}
             </v-col>
             <v-col>
-              <v-btn type="submit" color="primary" @click="submit">Submit</v-btn>
+              <v-btn type="submit" color="primary" @click="submit"
+                >Submit</v-btn
+              >
             </v-col>
             <v-col> </v-col>
           </v-row>
@@ -67,9 +87,7 @@ export default {
     async submit() {
       try {
         // Sending the income data to the backend
-        await this.$axios.put("income/" + this.payload.id,
-          this.payload
-        );
+        await this.$axios.put("income/" + this.payload.id, this.payload);
 
         this.$emit("success", "Income has been updated");
         this.dialog = false;

@@ -5,8 +5,9 @@
     </v-card>
 
     <v-card outlined class="my-1">
-      <v-toolbar flat dense dark color="primary">Expense List</v-toolbar>
-      <Expense />
+      <!-- <v-toolbar flat dense dark color="primary">Expense List</v-toolbar> -->
+      <SingleCard label="Total Expense" :value="totalExpense" />
+      <Expense @some_value="(e) => (totalExpense = e)" />
     </v-card>
 
     <!-- <v-tabs centered>
@@ -38,12 +39,12 @@
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
       tab: null,
+      totalExpense: 0,
     };
-  }
+  },
 };
 </script>

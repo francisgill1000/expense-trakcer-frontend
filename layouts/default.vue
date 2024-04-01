@@ -66,21 +66,6 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-calendar-today",
-          title: "Today Stats",
-          to: "/today-stats",
-        },
-        {
-          icon: "mdi-calendar-week",
-          title: "Weekly Stats",
-          to: "/weekly-stats",
-        },
-        {
-          icon: "mdi-calendar-month",
-          title: "Monthly Stats",
-          to: "/monthly-stats",
-        },
-        {
           icon: "mdi-currency-usd",
           title: "Expense",
           to: "/expense",

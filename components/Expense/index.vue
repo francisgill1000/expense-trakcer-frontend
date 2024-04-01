@@ -2,27 +2,49 @@
   <v-row no-gutters>
     <v-col cols="12">
       <v-navigation-drawer absolute top v-model="filterForm">
-        <v-toolbar dense flat>Filters <v-spacer />
-          <v-icon @click="filterForm = false" color="primary">mdi-close-circle-outline</v-icon></v-toolbar>
+        <v-toolbar dense flat
+          >Filters <v-spacer />
+          <v-icon @click="filterForm = false" color="primary"
+            >mdi-close-circle-outline</v-icon
+          ></v-toolbar
+        >
         <v-row no-gutters class="pa-2">
           <v-col cols="12" class="mb-3">
-            <DatePicker label="Start Date" paramKey="start_date" @date="getDateEvent" />
+            <DatePicker
+              label="Start Date"
+              paramKey="start_date"
+              @date="getDateEvent"
+            />
           </v-col>
           <v-col cols="12">
-            <DatePicker label="End Date" paramKey="end_date" @date="getDateEvent" />
+            <DatePicker
+              label="End Date"
+              paramKey="end_date"
+              @date="getDateEvent"
+            />
           </v-col>
           <v-col cols="12" class="mt-3">
-            <v-btn block outlined color="primary" small @click="refresh">Submit</v-btn>
+            <v-btn block outlined color="primary" small @click="refresh"
+              >Submit</v-btn
+            >
           </v-col>
         </v-row>
       </v-navigation-drawer>
       <v-toolbar class="mb-2" dense flat>
         <v-icon class="ml-2" color="primary" @click="reload">mdi-reload</v-icon>
-        <v-icon class="ml-2" color="primary" @click="filterForm = true">mdi-filter-outline</v-icon>
+        <v-icon class="ml-2" color="primary" @click="filterForm = true"
+          >mdi-filter-outline</v-icon
+        >
         <v-spacer></v-spacer>
         <ExpenseCreate @success="handleSuccess" />
       </v-toolbar>
-      <DataTable editComponent="ExpenseEdit" :key="dataRefreshKey" :headers="headers" :endpoint="endpoint" :filters="filters" />
+      <DataTable
+        editComponent="ExpenseEdit"
+        :key="dataRefreshKey"
+        :headers="headers"
+        :endpoint="endpoint"
+        :filters="filters"
+      />
     </v-col>
   </v-row>
 </template>
@@ -84,12 +106,12 @@ export default {
     tab: null,
     filters: {},
     isFilter: false,
+    dateFilter: {},
   }),
 
   watch: {
     options: {
-      handler() {
-      },
+      handler() {},
       deep: true,
     },
   },
@@ -99,6 +121,7 @@ export default {
       let { data } = await this.$axios.get("customExpense", {
         params: {
           ...this.filters,
+          ...this.dateFilter,
         },
       });
       this.totalExpense = data;
@@ -111,8 +134,8 @@ export default {
     },
 
     getDateEvent(e) {
-      this.filters = {
-        ...this.filters,
+      this.dateFilter = {
+        ...this.dateFilter,
         ...e,
       };
     },
@@ -127,7 +150,6 @@ export default {
       this.filters = {};
       this.isFilter = false;
       this.refresh();
-
     },
   },
 };
