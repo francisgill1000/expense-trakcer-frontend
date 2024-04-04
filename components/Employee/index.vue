@@ -120,8 +120,7 @@
             <v-list width="120" dense>
               <v-list-item @click="viewItem(item)">
                 <v-list-item-title style="cursor: pointer">
-                  <v-icon color="secondary" small> mdi-eye </v-icon>
-                  View
+                  <EmployeeSingle @success="handleSuccess" :item="item" />
                 </v-list-item-title>
               </v-list-item>
               <v-list-item>
