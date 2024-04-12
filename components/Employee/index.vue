@@ -93,21 +93,9 @@
           </v-toolbar>
         </template>
         <template v-slot:item.profile_picture="{ item }">
-          <v-row>
-            <v-col cols="2">
-              <v-avatar size="50" class="my-3">
-                <v-img style="width: 100%" :src="item.profile_picture"></v-img>
-              </v-avatar>
-            </v-col>
-            <v-col>
-              <div class="mt-2">
-                <strong>{{item.name}}</strong>
-              </div>
-              <small>{{item.email}}</small>
-              <br>
-              <small>{{item.phone}}</small>
-            </v-col>
-          </v-row>
+          <v-avatar>
+            <v-img :src="item.profile_picture" class="text-right" />
+          </v-avatar>
         </template>
 
         <template v-slot:item.options="{ item }">
@@ -118,7 +106,7 @@
               </v-btn>
             </template>
             <v-list width="120" dense>
-              <v-list-item @click="viewItem(item)">
+              <v-list-item>
                 <v-list-item-title style="cursor: pointer">
                   <EmployeeSingle @success="handleSuccess" :item="item" />
                 </v-list-item-title>
@@ -149,15 +137,42 @@
 export default {
   data: () => ({
     filterForm: false,
-    Model: "Item",
+    Model: "Employee",
     endpoint: "employee",
     headers: [
       {
-        text: "Employee",
+        text: "Profile Picture",
         align: "left",
         sortable: false,
         key: "profile_picture",
         value: "profile_picture",
+        filterable: true,
+        filterSpecial: false,
+      },
+      {
+        text: "Name",
+        align: "left",
+        sortable: false,
+        key: "name",
+        value: "name",
+        filterable: true,
+        filterSpecial: false,
+      },
+      {
+        text: "Email",
+        align: "left",
+        sortable: false,
+        key: "email",
+        value: "email",
+        filterable: true,
+        filterSpecial: false,
+      },
+      {
+        text: "Phone",
+        align: "left",
+        sortable: false,
+        key: "phone",
+        value: "phone",
         filterable: true,
         filterSpecial: false,
       },

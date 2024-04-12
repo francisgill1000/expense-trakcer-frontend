@@ -75,6 +75,12 @@ export default {
           title: "Income",
           to: "/income",
         },
+        {
+          icon: "mdi-account-tie",
+          title: "Employee",
+          to: "/employee",
+        },
+
         // {
         //   icon: "mdi-package",
         //   title: "Item",
